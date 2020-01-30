@@ -23,7 +23,7 @@ ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecki
 Run the following playbook to bring up vmm topolgy (1 master 2 workers):
 
 ```
-ansible-playbook -i vmm_pods ./playbooks/deploy_vmm_topology.yml
+ansible-playbook -i vmm_pods ./playbooks/deploy-vmm-topology.yml
 ```
 
 Once vmm topology is up and running:
@@ -39,7 +39,7 @@ network: flannel
 
 Run the following playbook to bring up kubernetes cluster setup:
 ```
-ansible-playbook ./playbooks/site.yml
+ansible-playbook ./playbooks/deploy-cluster.yml
 ```
 
 In order to deploy jrobot in the cluster, edit ./groups_vars/kube_cluster.yml and put git credentials, then run the following playbook:
@@ -57,11 +57,20 @@ ansible-playbook ./playbooks/deploy-robot.yml
 
 # Resetting the environment
 
-Reset all kubeadm installed using `reset-site.yaml` playbook:
+Reset all kubeadm installed using `reset-cluster.yml` playbook:
 
 ```sh
-ansible-playbook ./playbooks/reset-site.yaml
+ansible-playbook ./playbooks/reset-cluster.yml
 ```
+,this playbook will delete the cluster
+
+Stop vmm topology using `stop-deploy-topology.yml` playbook:
+
+```
+ansible-playbook ./playbooks/stop-deploy-topology.yml
+```
+, this playbook will destroy vmm topology, therefore the cluster
+
 
 
 

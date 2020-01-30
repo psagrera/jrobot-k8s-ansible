@@ -1,0 +1,7 @@
+# STOP VMM topology
+
+- hosts: vmm_pods
+  gather_facts: no
+  roles:
+    - role: vmm.stop_topology
+  tags: vmm_environment
