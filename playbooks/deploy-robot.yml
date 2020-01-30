@@ -1,0 +1,9 @@
+---
+- hosts: master
+  become: yes
+  tasks:
+    - name: "Deploy jrobot"
+      shell: sh deploy.sh
+      args:
+        chdir: /root/robot
+        executable: /bin/bash

@@ -1,0 +1,5 @@
+---
+- name: Wait for system to become reachable (Max 300s)
+  wait_for_connection:
+    timeout: "{{ timeout }}"
+    delay: 1

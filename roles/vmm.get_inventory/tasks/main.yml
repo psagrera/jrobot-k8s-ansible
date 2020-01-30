@@ -1,0 +1,43 @@
+---
+- name: Get topology IP addressing (raw)
+  shell: |
+    vmm ip | \
+    awk 'BEGIN {
+
+     print "[master]" 
+
+     } \
+    $1 ~ /^node/ {
+        if ($1 == "node1")
+        print $1"\t\tansible_host="$2;
+        vmm_servers[$1]=$2
+      } \
+    END { 
+    }'
+    vmm ip | \
+    awk 'BEGIN {
+       print "[node]" 
+    }\
+    $1 ~ /^node/ {
+      if ($1 != "node1")
+        print $1"\t\tansible_host="$2;
+    } \
+    END {
+    }'
+    vmm ip | \
+
+    awk 'BEGIN {
+       print "[kube_cluster:children]"
+       print "master";
+       print "nodes";
+    }
+
+    END {
+    }'
+    
+    
+  register: vmm_ip
+
+- debug: msg="{{vmm_ip.stdout}}"
+
+- local_action: copy content={{ vmm_ip.stdout }} dest=../hosts.ini

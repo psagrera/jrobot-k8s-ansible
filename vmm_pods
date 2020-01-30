@@ -1,0 +1,8 @@
+[vmm_pods]
+10.51.246.43
+
+[q_pod05_vmm_englab_juniper_net]
+10.51.246.43
+
+[vmm_pods:vars]
+vmm_topology_file=vmm-topology.3-servers-0-vmx.conf

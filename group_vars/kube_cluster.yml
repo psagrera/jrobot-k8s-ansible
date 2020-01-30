@@ -1,0 +1,14 @@
+---
+ansible_connection: ssh 
+ansible_ssh_user: root 
+ansible_ssh_pass: Embe1mpls
+ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+git:
+  # note: define git_url_https wihtout https://
+  git_url_https: github.com/psagrera/jrobot-K8s.git 
+  git_user: psagrera 
+  git_password: K4r4col4
+  #git_branch: master
+  git_branch: master
+  git_destination: /root/robot
+master_ip: "{{ hostvars[groups['master'][0]]['ansible_default_ipv4'].address | default(groups['master'][0]) }}"

@@ -1,0 +1,8 @@
+- name: Clone a git repository (https)
+  git:
+    repo: https://{{ git_user }}:{{ git_password }}@{{ git_url_https }}
+    version: "{{ git_branch }}"
+    dest: "{{ git_destination }}"
+    force: yes
+    clone: yes
+    update: yes

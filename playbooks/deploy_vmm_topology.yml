@@ -1,0 +1,15 @@
+# Build VMM topology
+
+- hosts: vmm_pods
+  gather_facts: no
+  roles:
+    - role: vmm.stop_topology
+    - role: pause
+      seconds: 30
+    - role: roles/vmm.get_capacity
+    - role: roles/vmm.start_topology
+    - role: pause
+      seconds: 30
+    - role: roles/vmm.get_inventory
+  tags: vmm_environment
+

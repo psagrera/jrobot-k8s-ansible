@@ -1,0 +1,9 @@
+---
+- name: Get topology IP addressing (raw)
+  shell: |
+    vmm capacity -g vmm-default 
+  register: vmm_capacity
+
+- debug: msg="{{vmm_capacity.stdout}}"
+
+# Would be nice to parse values and put a contraint to check available free capacity

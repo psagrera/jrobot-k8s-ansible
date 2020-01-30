@@ -1,0 +1,22 @@
+---
+- name: Check topology initial state
+  raw: vmm ls
+  register: vmm_ls
+
+- debug: msg="{{ vmm_ls.stdout }}"
+
+- name: unbind topology
+  raw: vmm unbind
+  register: vmm_unbind
+
+- debug: msg="{{vmm_unbind.stdout}}"
+
+- name: Check that there is NOT a running topology? 
+  raw: vmm ls
+  register: vmm_ls
+  failed_when: "'Running' in vmm_ls.stdout"
+
+- debug: msg="{{ vmm_ls.stdout }}"
+
+- name: Delete vmm inventory file
+  local_action: file path=~/vmm/{{ vmm_topology_file }} state=absent

@@ -1,0 +1,10 @@
+---
+- hosts: master
+  name: git clone robot repo 
+  roles:
+    -  role: git.clone
+       git_user:  "{{ hostvars[inventory_hostname]['git']['git_user'] }}"
+       git_password: "{{ hostvars[inventory_hostname]['git']['git_password'] }}"
+       git_url_https: "{{ hostvars[inventory_hostname]['git']['git_url_https'] }}"
+       git_branch: "{{ hostvars[inventory_hostname]['git']['git_branch'] }}"
+       git_destination: "{{ hostvars[inventory_hostname]['git']['git_destination'] }}"

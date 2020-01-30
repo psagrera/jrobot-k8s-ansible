@@ -1,0 +1,5 @@
+- name: Check topology status? 
+  raw: vmm ls
+  register: vmm_ls
+
+- debug: msg="{{ vmm_ls.stdout }}"

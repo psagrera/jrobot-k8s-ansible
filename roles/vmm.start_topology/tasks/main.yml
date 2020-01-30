@@ -1,0 +1,87 @@
+---
+- block:
+    - name: Check that there is NOT running topology? 
+      raw: vmm ls
+      register: vmm_ls
+      failed_when: "'Running' in vmm_ls.stdout or 'Bound' in vmm_ls.stdout" 
+
+    - debug: msg="{{ vmm_ls.stdout }}"
+
+  rescue:
+    - name: unbind topology
+      raw: vmm unbind
+      register: vmm_unbind
+
+    - debug: msg="{{vmm_unbind.stdout_lines}}"
+
+- block:
+    - name: Creates working directories
+      file:
+        path: ~/vmm/juniper/base_configs/
+        state: directory
+        recurse: yes
+
+    - name: Delete topology configuration file if exists
+      file:
+        path: "~/vmm/{{ vmm_topology_file }}"
+        state: absent
+
+    - name: Check if file is there and end play if file was not deleted
+      shell: ls -la ~/vmm/{{ vmm_topology_file }}
+      register: my_ls
+      ignore_errors: yes
+
+    - name: End the playbook if the configuration file was not deleted
+      meta: end_play
+      when: my_ls.stdout != ''
+
+    - name: Upload topology configuration file to vmm pod
+      copy:
+          src:  "vmm-configs/{{ vmm_topology_file }}"  
+          dest: "~/vmm/{{ vmm_topology_file }}"
+          mode: "0666"
+          force: yes
+      register: upload_topology
+
+    #- name: Upload router base configuration files to vmm pod
+    #  copy:
+    #      src:  "junos-configs/"  
+    #      dest: "~/vmm/juniper/base_configs"
+    #      mode: "0644"
+    #      directory_mode: yes
+    #      force: yes
+    #  register: upload_topology
+    
+  rescue:
+    - fail:
+        msg: "Stopping playbook execution due problems uploading configuration file"
+      
+- block:
+    - name: Load vmm topology configuration file 
+      raw: vmm config ~/vmm/{{ vmm_topology_file }} -g vmm-default
+      register: vmm_config
+      failed_when: "'Error' in vmm_config.stdout"
+    
+    - debug: msg="{{ vmm_config.stdout }}"  
+  rescue:
+    - fail:
+        msg: "Stopping playbook execution due problems loading vmm configuration file"
+
+- block:
+    - name: Start vmm topology 
+      raw: vmm start
+      register: vmm_start
+      failed_when: "'Error' in vmm_start.stdout"
+    
+    - debug: msg="{{ vmm_start.stdout }}"   
+  rescue:
+    - fail:
+        msg: "Stopping playbook execution due problems starting vmm topology"
+
+- block:   
+  - name: Check the topology IS running? 
+    raw: vmm ls
+    register: vmm_ls
+    failed_when: "'Running' not in vmm_ls.stdout"
+  
+  - debug: msg="{{ vmm_ls.stdout }}"
