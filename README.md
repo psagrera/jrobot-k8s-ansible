@@ -67,7 +67,7 @@ ansible-playbook ./playbooks/reset-cluster.yml
 Stop vmm topology using `stop-deploy-topology.yml` playbook:
 
 ```
-ansible-playbook ./playbooks/stop-deploy-topology.yml
+ansible-playbook -i vmm_pods ./playbooks/stop-deploy-topology.yml
 ```
 , this playbook will destroy vmm topology, therefore the cluster
 
