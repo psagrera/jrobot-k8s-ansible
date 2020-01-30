@@ -23,7 +23,7 @@ ansible_ssh_common_args: '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecki
 Run the following playbook to bring up vmm topolgy (1 master 2 workers):
 
 ```
-ansible-playbook ./playbooks/deploy_vmm_topology.yml
+ansible-playbook -i vmm_pods ./playbooks/deploy_vmm_topology.yml
 
 ```
 
