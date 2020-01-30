@@ -7,7 +7,7 @@ git:
   # note: define git_url_https wihtout https://
   git_url_https: github.com/psagrera/jrobot-K8s.git 
   git_user: psagrera 
-  git_password: K4r4col4
+  git_password: xxxxxx
   #git_branch: master
   git_branch: master
   git_destination: /root/robot
