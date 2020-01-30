@@ -1,6 +1,6 @@
 # Ansible playbooks to deploy jrobot in K8s (VMM enviroment)
 
-Build a kubernetes cluster using Ansible via kubeadm
+Build a kubernetes cluster using Ansible via kubeadm in vmm environment
 
 
 Requirements:
@@ -42,14 +42,14 @@ Run the following playbook to bring up kubernetes cluster setup:
 ansible-playbook ./playbooks/site.yml
 ```
 
-In order to deploy jrobot in the cluster, run the following playbooks:
+In order to deploy jrobot in the cluster, edit ./groups_vars/kube_cluster.yml and put git credentials, then run the following playbook:
 
 ```
 ansible-playbook ./playbooks/git-robot.yml
 ```
 , this playbook will clone the project in the master node, then edit /root/robot/jrobot/values.yaml
 
-and put the correct password in the gitRepository section, then run:
+and put the correct git credentials in the gitRepository section, then run:
 
 ```
 ansible-playbook ./playbooks/deploy-robot.yml
