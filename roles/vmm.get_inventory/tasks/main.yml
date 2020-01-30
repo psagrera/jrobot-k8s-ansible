@@ -29,7 +29,7 @@
     awk 'BEGIN {
        print "[kube_cluster:children]"
        print "master";
-       print "nodes";
+       print "node";
     }
 
     END {
